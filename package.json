@@ -1,0 +1,26 @@
+{
+  "name": "oblgram",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.oblgram.app",
+    "productName": "Oblgram",
+    "files": ["main.js", "server.js", "renderer/**/*", "node_modules/**/*"],
+    "win": { "target": "portable" },
+    "portable": { "artifactName": "Oblgram.exe" }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
+  }
+}

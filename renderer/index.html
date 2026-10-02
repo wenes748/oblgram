@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Oblgram</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="device-desktop">
+
+<!-- ============ АВТОРИЗАЦИЯ ============ -->
+<div id="auth" class="auth hidden">
+  <section class="auth-screen active" id="screen-phone">
+    <div class="auth-side">
+      <div class="auth-logo-big">✈️</div>
+      <h1>Oblgram</h1>
+      <p>Мессенджер нового поколения</p>
+    </div>
+    <div class="auth-form">
+      <h2>Ваш номер телефона</h2>
+      <p class="auth-desc">Введите номер. Мы отправим код подтверждения.</p>
+      <div class="tg-field"><label>Номер телефона</label>
+        <input id="phone" type="tel" placeholder="+7 999 123 45 67" /></div>
+      <button id="btn-phone" class="tg-primary">Продолжить</button>
+    </div>
+  </section>
+
+  <section class="auth-screen" id="screen-code">
+    <div class="auth-side">
+      <div class="auth-logo-big">✈️</div>
+      <h1>Oblgram</h1>
+      <p>Мессенджер нового поколения</p>
+    </div>
+    <div class="auth-form">
+      <h2>Введите код</h2>
+      <p class="auth-desc">Код отправлен на <b id="phone-display"></b></p>
+      <div class="demo-banner">
+        <div class="demo-banner-label">Демокод</div>
+        <div class="demo-banner-code" id="demo-code">-----</div>
+        <div class="demo-banner-hint">Введите его в поле ниже</div>
+      </div>
+      <div class="tg-field"><label>Код из сообщения</label>
+        <input id="code" type="text" inputmode="numeric" maxlength="5" placeholder="_ _ _ _ _" /></div>
+      <button id="btn-code" class="tg-primary">Подтвердить</button>
+      <button id="btn-back" class="tg-link">← Изменить номер</button>
+    </div>
+  </section>
+
+  <section class="auth-screen" id="screen-pass">
+    <div class="auth-side">
+      <div class="auth-logo-big">🔒</div>
+      <h1>Oblgram</h1>
+      <p>Облачная защита паролем</p>
+    </div>
+    <div class="auth-form">
+      <h2>Введите пароль</h2>
+      <p class="auth-desc">Аккаунт защищён облачным паролем.</p>
+      <div class="tg-field"><label>Пароль</label>
+        <input id="password" type="password" placeholder="••••••••" /></div>
+      <button id="btn-pass" class="tg-primary">Войти</button>
+    </div>
+  </section>
+</div>
+
+<!-- ============ ОСНОВНОЕ ============ -->
+<div id="app" class="app hidden">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <button class="burger" id="btn-admin" title="Админ-панель" style="display:none;">👑</button>
+      <div class="search-wrap">
+        <input id="search-input" class="search" placeholder="Поиск по @username" />
+      </div>
+      <button class="burger" id="btn-store" title="Магазин">⭐</button>
+    </div>
+    <div class="chats-scroll" id="chats-list"></div>
+    <div class="sidebar-bottom" id="me-badge">
+      <div class="me-avatar" id="me-avatar">?</div>
+      <div class="me-info">
+        <div class="me-name" id="me-name">—</div>
+        <div class="me-username" id="me-username">@—</div>
+        <div class="me-badges">
+          <span id="me-premium-badge" class="badge hidden">💎 Premium</span>
+          <span id="me-stars" class="badge-stars">⭐ 0</span>
+          <span id="me-crystals" class="badge-crystals">💠 0</span>
+        </div>
+      </div>
+      <div class="me-menu-icon">⚙️</div>
+    </div>
+  </aside>
+
+  <main class="chat" id="chat-panel">
+    <div class="chat-empty" id="chat-empty">
+      <div class="empty-icon">💬</div>
+      <div class="empty-title">Выберите чат</div>
+      <div class="empty-sub">Найдите пользователя по @username</div>
+    </div>
+    <div class="chat-active hidden" id="chat-active">
+      <header class="chat-header">
+        <button class="chat-back-mobile hidden" id="chat-back-mobile">←</button>
+        <div class="chat-header-avatar" id="chat-avatar" title="Открыть профиль">?</div>
+        <div class="chat-header-info" id="chat-header-info">
+          <div class="chat-header-name" id="chat-name">—</div>
+          <div class="chat-header-status" id="chat-status">@—</div>
+        </div>
+        <div class="chat-header-actions">
+          <span class="icon-btn">🔍</span>
+          <span class="icon-btn">⋮</span>
+        </div>
+      </header>
+      <div class="messages" id="messages"></div>
+      <footer class="composer">
+        <span class="icon-btn">😊</span>
+        <input id="msg-input" class="composer-input" placeholder="Написать сообщение..." />
+        <span class="icon-btn">📎</span>
+        <button id="btn-send" class="send">➤</button>
+      </footer>
+    </div>
+  </main>
+
+  <nav class="mobile-tabs hidden" id="mobile-tabs">
+    <button class="mtab active" data-tab="chats"><span>💬</span><span>Чаты</span></button>
+    <button class="mtab" data-tab="search"><span>🔍</span><span>Поиск</span></button>
+    <button class="mtab" data-tab="store"><span>⭐</span><span>Магазин</span></button>
+    <button class="mtab" data-tab="me"><span>👤</span><span>Профиль</span></button>
+  </nav>
+
+  <div class="search-overlay hidden" id="search-overlay">
+    <div class="search-overlay-header">
+      <h3>Результаты поиска</h3>
+      <button class="close-btn" id="search-close">✕</button>
+    </div>
+    <div class="search-overlay-body" id="search-results"></div>
+  </div>
+
+  <!-- НАСТРОЙКИ -->
+  <div class="modal hidden" id="modal-settings">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Настройки</h3>
+        <button class="close-btn" id="settings-close">✕</button>
+      </div>
+      <div class="modal-body no-pad">
+        <button class="settings-row" id="go-profile">
+          <span class="sr-icon">👤</span>
+          <span class="sr-text">
+            <span class="sr-title">Мой профиль</span>
+            <span class="sr-sub">Имя, фото, подарки</span>
+          </span>
+          <span class="sr-arrow">›</span>
+        </button>
+        <button class="settings-row" id="go-accounts">
+          <span class="sr-icon">👥</span>
+          <span class="sr-text">
+            <span class="sr-title">Аккаунты</span>
+            <span class="sr-sub">Добавить или переключить</span>
+          </span>
+          <span class="sr-arrow">›</span>
+        </button>
+        <button class="settings-row" id="go-store">
+          <span class="sr-icon">⭐</span>
+          <span class="sr-text">
+            <span class="sr-title">Звёзды и подарки</span>
+            <span class="sr-sub">Купить, подарить, NFT</span>
+          </span>
+          <span class="sr-arrow">›</span>
+        </button>
+        <button class="settings-row" id="go-nfts">
+          <span class="sr-icon">🎁</span>
+          <span class="sr-text">
+            <span class="sr-title">Мои подарки</span>
+            <span class="sr-sub">Коллекция</span>
+          </span>
+          <span class="sr-arrow">›</span>
+        </button>
+        <button class="settings-row danger" id="settings-logout">
+          <span class="sr-icon">🚪</span>
+          <span class="sr-text">
+            <span class="sr-title">Выйти из аккаунта</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРОФИЛЬ -->
+  <div class="modal hidden" id="modal-profile-view">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <button class="close-btn" id="pv-back">←</button>
+        <h3 id="pv-title">Профиль</h3>
+        <button class="close-btn" id="pv-close">✕</button>
+      </div>
+      <div class="modal-body profile-view">
+        <div class="pv-avatar-wrap">
+          <div class="pv-avatar" id="pv-avatar">🙂</div>
+        </div>
+        <h2 class="pv-name" id="pv-name">—</h2>
+        <div class="pv-username" id="pv-username">@—</div>
+        <div class="pv-bio" id="pv-bio"></div>
+
+        <div class="pv-badges">
+          <span id="pv-premium" class="badge hidden">💎 Premium</span>
+          <span id="pv-stars" class="badge-stars">⭐ 0</span>
+          <span id="pv-crystals" class="badge-crystals">💠 0</span>
+        </div>
+
+        <div class="pv-info">
+          <div class="pv-info-row">
+            <span class="pv-label">Телефон</span>
+            <span id="pv-phone">—</span>
+          </div>
+          <div class="pv-info-row">
+            <span class="pv-label">Статус</span>
+            <span id="pv-status">—</span>
+          </div>
+          <div class="pv-info-row">
+            <span class="pv-label">Premium до</span>
+            <span id="pv-prem-until">—</span>
+          </div>
+        </div>
+
+        <h3 class="pv-section">🎁 Коллекция подарков</h3>
+        <div class="nft-grid" id="pv-nfts"></div>
+
+        <div class="pv-actions">
+          <button id="pv-edit" class="tg-primary">Изменить профиль</button>
+          <button id="pv-write" class="tg-primary hidden">Написать сообщение</button>
+          <button id="pv-gift" class="tg-primary hidden">🎁 Подарить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- РЕДАКТИРОВАНИЕ ПРОФИЛЯ -->
+  <div class="modal hidden" id="modal-profile-edit">
+    <div class="modal-box">
+      <div class="modal-header">
+        <button class="close-btn" id="pe-back">←</button>
+        <h3>Изменить профиль</h3>
+        <button class="close-btn" id="pe-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="photo-editor">
+          <div class="photo-preview" id="pe-preview">🙂</div>
+          <div class="photo-actions">
+            <button class="photo-btn" id="pe-upload">Загрузить фото</button>
+            <button class="photo-btn ghost" id="pe-remove">Удалить фото</button>
+          </div>
+          <input type="file" id="pe-file" accept="image/*" style="display:none" />
+        </div>
+        <div class="tg-field"><label>Имя</label>
+          <input id="pe-name" maxlength="40" /></div>
+        <div class="tg-field"><label>@username</label>
+          <input id="pe-username" maxlength="32" /></div>
+        <div class="tg-field"><label>О себе</label>
+          <input id="pe-bio" maxlength="120" /></div>
+        <div class="tg-field"><label>Эмодзи (если нет фото)</label>
+          <input id="pe-emoji" maxlength="4" /></div>
+        <button id="pe-save" class="tg-primary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- АККАУНТЫ -->
+  <div class="modal hidden" id="modal-accounts">
+    <div class="modal-box">
+      <div class="modal-header">
+        <button class="close-btn" id="acc-back">←</button>
+        <h3>Аккаунты</h3>
+        <button class="close-btn" id="acc-close">✕</button>
+      </div>
+      <div class="modal-body no-pad">
+        <div id="accounts-list"></div>
+        <button class="settings-row add-account" id="acc-add">
+          <span class="sr-icon">＋</span>
+          <span class="sr-text"><span class="sr-title">Добавить аккаунт</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- МАГАЗИН -->
+  <div class="modal hidden" id="modal-store">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <h3>Магазин</h3>
+        <button class="close-btn" id="store-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="balance-bar">
+          <div>
+            <div>⭐ Звёзды: <b id="store-balance">0</b></div>
+            <div style="margin-top:4px;">💠 Кристаллы: <b id="store-crystals">0</b></div>
+          </div>
+        </div>
+        <div class="store-tabs">
+          <button class="store-tab active" data-tab="stars">⭐</button>
+          <button class="store-tab" data-tab="crystals">💠</button>
+          <button class="store-tab" data-tab="premium">💎</button>
+          <button class="store-tab" data-tab="nft">🎁</button>
+        </div>
+
+        <div class="store-pane" id="pane-stars">
+          <p class="auth-desc">Подарите звёзды.</p>
+          <div class="tg-field"><label>Кому</label>
+            <input id="gift-stars-user" placeholder="@username" /></div>
+          <div class="tg-field"><label>Сколько</label>
+            <input id="gift-stars-amount" type="number" value="100" min="1" /></div>
+          <button class="tg-primary" id="gift-stars-send">Подарить звёзды</button>
+        </div>
+
+        <div class="store-pane hidden" id="pane-crystals">
+          <p class="auth-desc">Подарите кристаллы.</p>
+          <div class="tg-field"><label>Кому</label>
+            <input id="gift-crystals-user" placeholder="@username" /></div>
+          <div class="tg-field"><label>Сколько</label>
+            <input id="gift-crystals-amount" type="number" value="10" min="1" /></div>
+          <button class="tg-primary" id="gift-crystals-send">Подарить кристаллы</button>
+        </div>
+
+        <div class="store-pane hidden" id="pane-premium">
+          <p class="auth-desc">Premium. 0 дней — навсегда (только админ).</p>
+          <div class="tg-field"><label>Кому</label>
+            <input id="gift-prem-user" placeholder="@username" /></div>
+          <div class="tg-field"><label>Дней</label>
+            <input id="gift-prem-days" type="number" value="30" min="0" /></div>
+          <button class="tg-primary" id="gift-prem-send">Подарить Premium</button>
+        </div>
+
+        <div class="store-pane hidden" id="pane-nft">
+          <p class="auth-desc">Купите подарок себе или отправьте другому.</p>
+          <div class="tg-field"><label>Отправить кому (пусто — себе)</label>
+            <input id="nft-to" placeholder="@username" /></div>
+          <div class="nft-grid" id="nft-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОИ ПОДАРКИ -->
+  <div class="modal hidden" id="modal-nfts">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <h3>🎁 Моя коллекция</h3>
+        <button class="close-btn" id="nfts-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="nft-grid" id="my-nfts"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- АДМИНКА -->
+  <div class="modal hidden" id="modal-admin">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <h3>👑 Админ-панель</h3>
+        <button class="close-btn" id="admin-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="admin-users"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

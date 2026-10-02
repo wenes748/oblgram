@@ -1,0 +1,9 @@
+{
+  "appId": "com.oblgram.app",
+  "appName": "Oblgram",
+  "webDir": "renderer",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
