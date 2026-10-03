@@ -1,4 +1,4 @@
-const socket = io('http://192.168.1.10:31234', { transports: ['websocket'] });
+const socket = io('https://oblgram.onrender.com', { transports: ['websocket'] });
 
 let ME = null;
 let CURRENT = null;
