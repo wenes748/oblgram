@@ -1,4 +1,4 @@
-const socket = io('http://192.168.1.10:31234', { transports: ['websocket'] });
+const socket = io('https://oblgram.onrender.com', { transports: ['websocket'] });
 
 let ME = null;
 let CURRENT = null;
@@ -13,159 +13,182 @@ const esc = s => String(s).replace(/[&<>"']/g, c =>
 
 // ================== SVG ПОДАРКИ ==================
 const NFT_ICONS = {
-  bear: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="bear-body" cx="40%" cy="30%">
-      <stop offset="0%" stop-color="#c48b5c"/><stop offset="100%" stop-color="#7a4a1e"/>
-    </radialGradient></defs>
-    <circle cx="26" cy="26" r="12" fill="#a06b3a"/><circle cx="74" cy="26" r="12" fill="#a06b3a"/>
-    <circle cx="26" cy="26" r="6" fill="#7a4a1e"/><circle cx="74" cy="26" r="6" fill="#7a4a1e"/>
-    <circle cx="50" cy="55" r="30" fill="url(#bear-body)" stroke="#5a3610" stroke-width="2"/>
-    <ellipse cx="50" cy="66" rx="16" ry="12" fill="#e8c8a0"/>
-    <circle cx="40" cy="50" r="3" fill="#1a1a1a"/><circle cx="60" cy="50" r="3" fill="#1a1a1a"/>
-    <ellipse cx="50" cy="62" rx="4" ry="3" fill="#1a1a1a"/>
-    <path d="M44 70 Q50 76 56 70" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  bear: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="bear-body" cx="40%" cy="30%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#8b5a2b"/></radialGradient></defs>
+    <circle cx="35" cy="32" r="15" fill="#8b5a2b"/><circle cx="85" cy="32" r="15" fill="#8b5a2b"/>
+    <circle cx="35" cy="32" r="7" fill="#6b4423"/><circle cx="85" cy="32" r="7" fill="#6b4423"/>
+    <ellipse cx="60" cy="68" rx="38" ry="35" fill="url(#bear-body)" stroke="#5a3610" stroke-width="2.5"/>
+    <ellipse cx="60" cy="80" rx="20" ry="15" fill="#f0d9b5"/>
+    <circle cx="48" cy="60" r="4" fill="#1a1a1a"/><circle cx="72" cy="60" r="4" fill="#1a1a1a"/>
+    <ellipse cx="60" cy="74" rx="5" ry="4" fill="#1a1a1a"/>
+    <path d="M52 84 Q60 92 68 84" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="32" cy="86" r="6" fill="#e88888" opacity="0.6"/><circle cx="88" cy="86" r="6" fill="#e88888" opacity="0.6"/>
   </svg>`,
-  rose: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="rose-g" cx="50%" cy="40%">
-      <stop offset="0%" stop-color="#ff5c8a"/><stop offset="100%" stop-color="#8a1038"/>
-    </radialGradient></defs>
-    <path d="M50 55 Q48 75 50 92" stroke="#2e7d32" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M50 75 Q38 70 34 60 Q42 62 50 70 Z" fill="#4caf50"/>
-    <path d="M50 82 Q62 78 66 68 Q58 70 50 78 Z" fill="#4caf50"/>
-    <circle cx="50" cy="42" r="22" fill="url(#rose-g)" stroke="#5a0a20" stroke-width="2"/>
-    <path d="M38 38 Q50 28 62 38 Q58 50 50 48 Q42 50 38 38 Z" fill="#ff8fb0"/>
-    <path d="M42 42 Q50 36 58 42" stroke="#8a1038" stroke-width="1.5" fill="none"/>
+  rose: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="rose-g" cx="50%" cy="40%"><stop offset="0%" stop-color="#ff5c8a"/><stop offset="60%" stop-color="#c2185b"/><stop offset="100%" stop-color="#7a0a30"/></radialGradient></defs>
+    <path d="M60 60 Q57 85 60 108" stroke="#2e7d32" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M60 90 Q44 82 38 68 Q48 72 60 82 Z" fill="#4caf50"/>
+    <circle cx="60" cy="48" r="28" fill="url(#rose-g)" stroke="#5a0a20" stroke-width="2.5"/>
+    <path d="M44 40 Q60 28 76 40 Q70 58 60 56 Q50 58 44 40 Z" fill="#ff8fb0"/>
   </svg>`,
-  cake: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="50" width="60" height="38" rx="6" fill="#f5d0a9" stroke="#a0764a" stroke-width="2"/>
-    <rect x="20" y="50" width="60" height="12" fill="#ff8fb0"/>
-    <circle cx="32" cy="56" r="2" fill="#e53935"/><circle cx="48" cy="56" r="2" fill="#e53935"/>
-    <circle cx="64" cy="56" r="2" fill="#e53935"/>
-    <rect x="46" y="28" width="8" height="20" fill="#ffc828"/>
-    <path d="M50 18 Q54 24 50 28 Q46 24 50 18 Z" fill="#ff6b35"/>
-    <ellipse cx="50" cy="50" rx="32" ry="4" fill="#fff" opacity=".7"/>
+  cake: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect x="22" y="58" width="76" height="46" rx="8" fill="#f5d0a9" stroke="#8b5a2b" stroke-width="2.5"/>
+    <rect x="22" y="58" width="76" height="16" fill="#ff9fb0"/>
+    <circle cx="36" cy="68" r="2.5" fill="#e53935"/><circle cx="50" cy="68" r="2.5" fill="#e53935"/>
+    <circle cx="70" cy="68" r="2.5" fill="#e53935"/><circle cx="84" cy="68" r="2.5" fill="#e53935"/>
+    <rect x="54" y="30" width="10" height="28" fill="#ffc828" rx="2"/>
+    <path d="M59 18 Q64 26 59 30 Q54 26 59 18 Z" fill="#ff6b35"/>
   </svg>`,
-  heart: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="heart-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ff5c8a"/><stop offset="100%" stop-color="#c2185b"/>
-    </linearGradient></defs>
-    <path d="M50 88 C20 66 8 48 8 34 C8 20 20 10 32 10 C40 10 47 15 50 22 C53 15 60 10 68 10 C80 10 92 20 92 34 C92 48 80 66 50 88 Z"
-          fill="url(#heart-g)" stroke="#8a1038" stroke-width="2"/>
-    <ellipse cx="34" cy="30" rx="8" ry="5" fill="#fff" opacity="0.5"/>
+  heart: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="heart-g" cx="35%" cy="30%"><stop offset="0%" stop-color="#ff8fb0"/><stop offset="60%" stop-color="#e53935"/><stop offset="100%" stop-color="#8a1038"/></radialGradient></defs>
+    <path d="M60 104 C24 78 10 56 10 40 C10 24 24 12 38 12 C48 12 56 18 60 26 C64 18 72 12 82 12 C96 12 110 24 110 40 C110 56 96 78 60 104 Z" fill="url(#heart-g)" stroke="#5a0a20" stroke-width="2.5"/>
+    <ellipse cx="40" cy="36" rx="10" ry="6" fill="#fff" opacity="0.5"/>
   </svg>`,
-  cup: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="cup-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffe066"/><stop offset="100%" stop-color="#b87400"/>
-    </linearGradient></defs>
-    <path d="M22 25 L78 25 L72 70 Q70 82 50 82 Q30 82 28 70 Z"
-          fill="url(#cup-g)" stroke="#7a4a00" stroke-width="2"/>
-    <path d="M78 32 Q92 32 92 46 Q92 60 78 60" stroke="#7a4a00" stroke-width="3" fill="none"/>
-    <path d="M22 32 Q8 32 8 46 Q8 60 22 60" stroke="#7a4a00" stroke-width="3" fill="none"/>
-    <rect x="22" y="22" width="56" height="10" rx="3" fill="#b87400" stroke="#7a4a00" stroke-width="1.5"/>
-    <text x="50" y="55" text-anchor="middle" font-size="20" font-weight="bold" fill="#7a4a00">1</text>
+  cup: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="cup-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#e8a800"/><stop offset="100%" stop-color="#8b6508"/></linearGradient></defs>
+    <path d="M26 30 L94 30 L86 84 Q84 100 60 100 Q36 100 34 84 Z" fill="url(#cup-g)" stroke="#6b4a00" stroke-width="2.5"/>
+    <path d="M94 38 Q112 38 112 56 Q112 74 94 74" stroke="#6b4a00" stroke-width="4" fill="none"/>
+    <path d="M26 38 Q8 38 8 56 Q8 74 26 74" stroke="#6b4a00" stroke-width="4" fill="none"/>
+    <rect x="22" y="24" width="76" height="14" rx="4" fill="#b87400" stroke="#6b4a00" stroke-width="2"/>
+    <text x="60" y="68" text-anchor="middle" font-size="26" font-weight="bold" fill="#6b4a00" font-family="Arial">1</text>
   </svg>`,
-  rocket: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="rocket-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#e0e7ff"/><stop offset="100%" stop-color="#7d8b99"/>
-    </linearGradient></defs>
-    <path d="M50 6 C65 20 72 45 68 65 L62 78 L38 78 L32 65 C28 45 35 20 50 6 Z"
-          fill="url(#rocket-g)" stroke="#4a5568" stroke-width="2"/>
-    <circle cx="50" cy="38" r="9" fill="#2aabee" stroke="#fff" stroke-width="2"/>
-    <path d="M32 65 L18 78 L32 78 Z" fill="#e53935"/>
-    <path d="M68 65 L82 78 L68 78 Z" fill="#e53935"/>
-    <path d="M42 78 Q50 96 58 78 Z" fill="#ffa500"/>
+  rocket: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="rocket-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#a0a8b0"/></linearGradient></defs>
+    <path d="M60 8 C78 26 88 54 84 78 L74 96 L46 96 L36 78 C32 54 42 26 60 8 Z" fill="url(#rocket-body)" stroke="#5a6870" stroke-width="2.5"/>
+    <circle cx="60" cy="46" r="12" fill="#2aabee" stroke="#fff" stroke-width="3"/>
+    <path d="M36 78 L18 96 L36 96 Z" fill="#e53935"/><path d="M84 78 L102 96 L84 96 Z" fill="#e53935"/>
+    <path d="M50 96 Q60 118 70 96 Z" fill="#ff8c00"/>
+    <path d="M56 96 Q60 110 64 96 Z" fill="#fff" opacity="0.8"/>
   </svg>`,
-  diamond: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="dia-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#a8f0ff"/><stop offset="100%" stop-color="#0088aa"/>
-    </linearGradient></defs>
-    <path d="M25 25 L50 8 L75 25 L92 42 L50 92 L8 42 Z"
-          fill="url(#dia-g)" stroke="#004a66" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M25 25 L50 42 L75 25 M8 42 L50 42 L92 42 M50 42 L50 92"
-          stroke="#004a66" stroke-width="1.5" fill="none" opacity="0.6"/>
-    <path d="M30 25 L50 15 L55 25 Z" fill="#fff" opacity="0.6"/>
+  diamond: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="dia-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d0f8ff"/><stop offset="40%" stop-color="#7ff5ff"/><stop offset="100%" stop-color="#0088aa"/></linearGradient></defs>
+    <path d="M30 30 L60 8 L90 30 L110 50 L60 110 L10 50 Z" fill="url(#dia-g)" stroke="#004a66" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M30 30 L60 50 L90 30 M10 50 L60 50 L110 50 M60 50 L60 110" stroke="#004a66" stroke-width="1.8" fill="none" opacity="0.7"/>
+    <path d="M36 30 L60 16 L68 30 Z" fill="#fff" opacity="0.75"/>
   </svg>`,
-  alien: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="alien-g" cx="50%" cy="40%">
-      <stop offset="0%" stop-color="#a8ffb8"/><stop offset="100%" stop-color="#2e7d32"/>
-    </radialGradient></defs>
-    <path d="M50 8 C70 8 84 28 84 48 C84 68 70 84 50 84 C30 84 16 68 16 48 C16 28 30 8 50 8 Z"
-          fill="url(#alien-g)" stroke="#1a4a1e" stroke-width="2"/>
-    <ellipse cx="36" cy="45" rx="9" ry="12" fill="#1a1a1a"/>
-    <ellipse cx="64" cy="45" rx="9" ry="12" fill="#1a1a1a"/>
-    <ellipse cx="34" cy="42" rx="3" ry="4" fill="#fff"/>
-    <ellipse cx="62" cy="42" rx="3" ry="4" fill="#fff"/>
-    <path d="M42 68 Q50 72 58 68" stroke="#1a4a1e" stroke-width="2" fill="none"/>
+  alien: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="alien-body" cx="50%" cy="35%"><stop offset="0%" stop-color="#b8ffb8"/><stop offset="100%" stop-color="#2e7d32"/></radialGradient></defs>
+    <path d="M60 8 C86 8 104 34 104 60 C104 86 86 108 60 108 C34 108 16 86 16 60 C16 34 34 8 60 8 Z" fill="url(#alien-body)" stroke="#1a4a1e" stroke-width="2.5"/>
+    <ellipse cx="42" cy="56" rx="13" ry="17" fill="#1a1a1a"/><ellipse cx="78" cy="56" rx="13" ry="17" fill="#1a1a1a"/>
+    <ellipse cx="40" cy="52" rx="5" ry="6" fill="#fff"/><ellipse cx="76" cy="52" rx="5" ry="6" fill="#fff"/>
+    <path d="M48 84 Q60 90 72 84" stroke="#1a4a1e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
-  crown: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="crown-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffe066"/><stop offset="100%" stop-color="#b87400"/>
-    </linearGradient></defs>
-    <path d="M15 35 L25 60 L75 60 L85 35 L70 48 L58 25 L50 45 L42 25 L30 48 Z"
-          fill="url(#crown-g)" stroke="#7a4a00" stroke-width="2" stroke-linejoin="round"/>
-    <rect x="22" y="60" width="56" height="18" rx="3" fill="url(#crown-g)" stroke="#7a4a00" stroke-width="2"/>
-    <circle cx="35" cy="69" r="3" fill="#e53935"/><circle cx="50" cy="69" r="3" fill="#2aabee"/>
-    <circle cx="65" cy="69" r="3" fill="#a855f7"/>
-    <circle cx="15" cy="33" r="4" fill="#ff5c8a"/><circle cx="50" cy="20" r="4" fill="#2aabee"/>
-    <circle cx="85" cy="33" r="4" fill="#a855f7"/>
+  crown: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="crown-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff3a0"/><stop offset="50%" stop-color="#ffc828"/><stop offset="100%" stop-color="#8b6508"/></linearGradient></defs>
+    <path d="M18 42 L30 74 L90 74 L102 42 L84 58 L70 26 L60 50 L50 26 L36 58 Z" fill="url(#crown-g)" stroke="#5a3a00" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="26" y="74" width="68" height="22" rx="4" fill="url(#crown-g)" stroke="#5a3a00" stroke-width="2.5"/>
+    <circle cx="42" cy="85" r="4" fill="#e53935"/><circle cx="60" cy="85" r="4" fill="#2aabee"/><circle cx="78" cy="85" r="4" fill="#a855f7"/>
+    <circle cx="18" cy="40" r="6" fill="#ff5c8a" stroke="#5a3a00" stroke-width="1.5"/>
+    <circle cx="60" cy="22" r="6" fill="#2aabee" stroke="#5a3a00" stroke-width="1.5"/>
+    <circle cx="102" cy="40" r="6" fill="#a855f7" stroke="#5a3a00" stroke-width="1.5"/>
   </svg>`,
-  unicorn: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="uni-g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffb3e6"/><stop offset="100%" stop-color="#a855f7"/>
-    </linearGradient></defs>
-    <path d="M50 8 L58 32 L82 40 L60 50 L60 75 L40 75 L40 50 L18 40 L42 32 Z"
-          fill="url(#uni-g)" stroke="#6d3a99" stroke-width="2" stroke-linejoin="round"/>
-    <circle cx="42" cy="46" r="3" fill="#1a1a1a"/>
-    <path d="M40 75 L35 92 L42 82 L50 92 L58 82 L65 92 L60 75 Z"
-          fill="url(#uni-g)" stroke="#6d3a99" stroke-width="1.5"/>
+  unicorn: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="uni-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd6f0"/><stop offset="50%" stop-color="#ff8fb0"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs>
+    <path d="M60 6 L68 34 L100 42 L72 56 L72 88 L48 88 L48 56 L20 42 L52 34 Z" fill="url(#uni-g)" stroke="#6d3a99" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M60 6 L63 20 L57 20 Z" fill="#ffc828"/>
+    <circle cx="48" cy="52" r="4" fill="#1a1a1a"/>
+    <path d="M48 88 L40 108 L50 96 L60 108 L70 96 L80 108 L72 88 Z" fill="url(#uni-g)" stroke="#6d3a99" stroke-width="1.5"/>
   </svg>`,
-  pegasus: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="peg-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#7fb8e0"/>
-    </linearGradient></defs>
-    <path d="M25 30 Q10 20 8 45 Q20 40 30 45 Z" fill="#fff" stroke="#4a7aa0" stroke-width="1.5"/>
-    <path d="M75 30 Q90 20 92 45 Q80 40 70 45 Z" fill="#fff" stroke="#4a7aa0" stroke-width="1.5"/>
-    <ellipse cx="50" cy="55" rx="25" ry="22" fill="url(#peg-g)" stroke="#4a7aa0" stroke-width="2"/>
-    <path d="M40 38 L46 25 L52 38" fill="#fff" stroke="#4a7aa0" stroke-width="1.5"/>
-    <circle cx="42" cy="52" r="3" fill="#1a1a1a"/><circle cx="58" cy="52" r="3" fill="#1a1a1a"/>
-    <path d="M40 72 L36 92 M50 76 L50 92 M60 72 L64 92" stroke="#4a7aa0" stroke-width="3" stroke-linecap="round"/>
+  dragon: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="drg-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff8c4a"/><stop offset="50%" stop-color="#e53935"/><stop offset="100%" stop-color="#6b0a00"/></linearGradient></defs>
+    <path d="M60 14 L70 36 L96 26 L88 54 L114 60 L88 70 L96 100 L70 88 L60 114 L50 88 L24 100 L32 70 L6 60 L32 54 L24 26 L50 36 Z" fill="url(#drg-g)" stroke="#3a0500" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="46" cy="56" r="6" fill="#ffe066"/><circle cx="74" cy="56" r="6" fill="#ffe066"/>
+    <circle cx="46" cy="56" r="2.5" fill="#000"/><circle cx="74" cy="56" r="2.5" fill="#000"/>
+    <path d="M44 78 Q60 86 76 78" stroke="#3a0500" stroke-width="2.5" fill="none"/>
   </svg>`,
-  dragon: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="drg-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#8a1c00"/>
-    </linearGradient></defs>
-    <path d="M50 12 L58 30 L78 22 L72 44 L92 50 L72 58 L78 80 L58 72 L50 90 L42 72 L22 80 L28 58 L8 50 L28 44 L22 22 L42 30 Z"
-          fill="url(#drg-g)" stroke="#5a1000" stroke-width="2" stroke-linejoin="round"/>
-    <circle cx="40" cy="48" r="4" fill="#ffe066"/><circle cx="60" cy="48" r="4" fill="#ffe066"/>
-    <circle cx="40" cy="48" r="1.5" fill="#000"/><circle cx="60" cy="48" r="1.5" fill="#000"/>
-    <path d="M40 62 Q50 68 60 62" stroke="#5a1000" stroke-width="2" fill="none"/>
+  phoenix: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="phx-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff5a0"/><stop offset="40%" stop-color="#ffc828"/><stop offset="70%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#c2185b"/></linearGradient></defs>
+    <path d="M60 6 C66 32 84 30 102 22 C96 42 108 50 114 68 C100 62 92 68 84 82 C80 98 70 108 60 118 C50 108 40 98 36 82 C28 68 20 62 6 68 C12 50 24 42 18 22 C36 30 54 32 60 6 Z" fill="url(#phx-g)" stroke="#7a1040" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M60 36 L66 58 L60 80 L54 58 Z" fill="#fff" opacity="0.7"/>
+    <circle cx="60" cy="72" r="5" fill="#fff" opacity="0.9"/>
   </svg>`,
-  phoenix: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="phx-g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffe066"/><stop offset="50%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#c2185b"/>
-    </linearGradient></defs>
-    <path d="M50 8 C55 25 70 25 82 18 C78 32 88 38 92 52 C82 48 75 52 70 62 C68 75 60 82 50 92 C40 82 32 75 30 62 C25 52 18 48 8 52 C12 38 22 32 18 18 C30 25 45 25 50 8 Z"
-          fill="url(#phx-g)" stroke="#7a1040" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M50 30 L54 45 L50 60 L46 45 Z" fill="#fff" opacity="0.6"/>
+  galaxy: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="gal-g" cx="50%" cy="50%"><stop offset="0%" stop-color="#ffffff"/><stop offset="25%" stop-color="#a855f7"/><stop offset="60%" stop-color="#3a1a6a"/><stop offset="100%" stop-color="#0a0a2a"/></radialGradient></defs>
+    <circle cx="60" cy="60" r="54" fill="url(#gal-g)"/>
+    <ellipse cx="60" cy="60" rx="54" ry="18" fill="none" stroke="#fff" stroke-width="1.8" opacity="0.6"/>
+    <ellipse cx="60" cy="60" rx="54" ry="18" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.4" transform="rotate(55 60 60)"/>
+    <ellipse cx="60" cy="60" rx="54" ry="18" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.4" transform="rotate(-55 60 60)"/>
+    <circle cx="30" cy="36" r="1.8" fill="#fff"/><circle cx="90" cy="30" r="1.2" fill="#fff"/>
+    <circle cx="82" cy="90" r="1.8" fill="#fff"/><circle cx="34" cy="92" r="1.2" fill="#fff"/>
+    <circle cx="60" cy="60" r="4" fill="#fff"/>
   </svg>`,
-  galaxy: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+  // ===== СИГАРА =====
+  cigar: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <radialGradient id="gal-g" cx="50%" cy="50%">
-        <stop offset="0%" stop-color="#fff"/>
-        <stop offset="30%" stop-color="#a855f7"/>
-        <stop offset="70%" stop-color="#2a1a5a"/>
-        <stop offset="100%" stop-color="#0a0a2a"/>
-      </radialGradient>
+      <linearGradient id="cigar-body" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f5c542"/><stop offset="50%" stop-color="#d4a017"/><stop offset="100%" stop-color="#8b6508"/>
+      </linearGradient>
+      <linearGradient id="cigar-tip" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8b4513"/><stop offset="100%" stop-color="#3a1a00"/>
+      </linearGradient>
     </defs>
-    <circle cx="50" cy="50" r="42" fill="url(#gal-g)"/>
-    <ellipse cx="50" cy="50" rx="42" ry="14" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
-    <ellipse cx="50" cy="50" rx="42" ry="14" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.3" transform="rotate(60 50 50)"/>
-    <ellipse cx="50" cy="50" rx="42" ry="14" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.3" transform="rotate(-60 50 50)"/>
-    <circle cx="30" cy="35" r="1.5" fill="#fff"/><circle cx="70" cy="30" r="1" fill="#fff"/>
-    <circle cx="65" cy="70" r="1.5" fill="#fff"/><circle cx="35" cy="72" r="1" fill="#fff"/>
-    <circle cx="50" cy="50" r="3" fill="#fff"/>
+    <path d="M10 46 Q6 60 10 74 Q30 88 70 84 Q102 80 110 62 Q102 44 70 40 Q30 36 10 46 Z" fill="url(#cigar-body)" stroke="#5a3a00" stroke-width="2"/>
+    <ellipse cx="14" cy="60" rx="8" ry="14" fill="url(#cigar-tip)" stroke="#1a0500" stroke-width="1.5"/>
+    <ellipse cx="14" cy="60" rx="5" ry="10" fill="#ff6b35"/>
+    <ellipse cx="14" cy="60" rx="3" ry="6" fill="#ffc828"/>
+    <path d="M40 42 Q42 60 40 82 M65 40 Q67 60 65 84 M90 44 Q92 60 90 80" stroke="#8b6508" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <circle cx="75" cy="62" r="10" fill="#fff" stroke="#c0c0c0" stroke-width="1.5"/>
+    <circle cx="75" cy="62" r="8" fill="#e8e8e8"/>
+    <text x="75" y="65" text-anchor="middle" font-size="7" fill="#2aabee" font-weight="bold">T</text>
+    <path d="M8 46 Q0 34 12 22 Q26 16 30 26 Q20 30 18 40" fill="#e8e8e8" opacity="0.8"/>
+  </svg>`,
+
+  // ===== ДЕНЬГИ =====
+  money: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="money-bg" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#fff3a0"/><stop offset="70%" stop-color="#ffc828"/><stop offset="100%" stop-color="#e8a800"/>
+      </radialGradient>
+      <linearGradient id="money-lens" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c8ff60"/><stop offset="100%" stop-color="#4caf50"/>
+      </linearGradient>
+    </defs>
+    <path d="M20 68 Q16 90 30 100 Q44 108 60 108 Q76 108 90 100 Q104 90 100 68 Q108 58 100 48 Q88 42 76 46 Q68 36 60 36 Q52 36 44 46 Q32 42 20 48 Q12 58 20 68 Z" fill="url(#money-bg)" stroke="#b87400" stroke-width="2"/>
+    <path d="M40 60 Q50 48 60 48 Q70 48 80 60 Q70 72 60 72 Q50 72 40 60 Z" fill="#4a5a2a" opacity="0.4"/>
+    <path d="M18 54 L48 48 L54 72 L24 78 Z" fill="url(#money-lens)" stroke="#1a2a5a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M56 60 L66 58 L72 82 L62 84 Z" fill="url(#money-lens)" stroke="#1a2a5a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M48 48 Q52 54 56 60" stroke="#1a2a5a" stroke-width="3" fill="none"/>
+    <path d="M66 58 Q74 56 82 58" stroke="#1a2a5a" stroke-width="3" fill="none"/>
+    <text x="36" y="68" text-anchor="middle" font-size="22" font-weight="900" fill="#1a2a5a" font-family="Arial">$</text>
+    <text x="64" y="76" text-anchor="middle" font-size="22" font-weight="900" fill="#1a2a5a" font-family="Arial">$</text>
+  </svg>`,
+
+  // ===== ПЕПЕ — САМАЯ ДОРОГАЯ =====
+  pepe: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="pepe-body" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7ac74f"/><stop offset="100%" stop-color="#4caf50"/>
+      </linearGradient>
+      <linearGradient id="pepe-heart" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffd966"/><stop offset="100%" stop-color="#ff9800"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 14 Q40 6 50 8 Q58 4 66 10 Q76 6 82 14 Q84 24 78 28 Q88 30 90 40 Q98 40 98 50 Q98 62 88 64 Q90 78 78 88 Q80 100 66 104 Q60 112 50 108 Q40 116 32 106 Q20 108 18 96 Q8 92 10 80 Q2 72 6 60 Q2 48 12 42 Q12 30 22 28 Q24 16 34 18 Q36 12 40 14 Z" fill="url(#pepe-body)" stroke="#2e7d32" stroke-width="2.5"/>
+    <path d="M28 34 Q60 26 92 34 Q94 46 92 50 Q60 46 28 50 Q26 42 28 34 Z" fill="#1a5a9a" stroke="#0a3a6a" stroke-width="1.5"/>
+    <path d="M26 32 Q22 28 20 30 Q22 34 26 32 Z M94 32 Q98 28 100 30 Q98 34 94 32 Z" fill="#1a5a9a" stroke="#0a3a6a" stroke-width="1"/>
+    <ellipse cx="38" cy="56" rx="11" ry="13" fill="#1a1a1a"/>
+    <ellipse cx="82" cy="56" rx="11" ry="13" fill="#1a1a1a"/>
+    <ellipse cx="38" cy="56" rx="9" ry="11" fill="#3a5a7a"/>
+    <ellipse cx="82" cy="56" rx="9" ry="11" fill="#3a5a7a"/>
+    <circle cx="36" cy="54" r="2" fill="#fff"/><circle cx="40" cy="58" r="1.5" fill="#fff"/>
+    <circle cx="80" cy="54" r="2" fill="#fff"/><circle cx="84" cy="58" r="1.5" fill="#fff"/>
+    <path d="M30 76 Q60 68 90 76 Q90 88 60 90 Q30 88 30 76 Z" fill="#c62828" stroke="#8a1c00" stroke-width="2"/>
+    <path d="M30 78 Q60 74 90 78" stroke="#ff8fb0" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <path d="M42 108 Q60 96 78 108 Q72 118 60 118 Q48 118 42 108 Z" fill="url(#pepe-heart)" stroke="#c55a00" stroke-width="2"/>
+    <path d="M60 100 L60 118" stroke="#c55a00" stroke-width="1" opacity="0.5"/>
+    <path d="M22 76 Q14 78 14 88 Q20 86 24 84 Z" fill="url(#pepe-body)" stroke="#2e7d32" stroke-width="1.5"/>
+    <path d="M98 76 Q106 78 106 88 Q100 86 96 84 Z" fill="url(#pepe-body)" stroke="#2e7d32" stroke-width="1.5"/>
   </svg>`,
 };
+
+function nftIconSVG(iconId) {
+  return NFT_ICONS[iconId] || NFT_ICONS.bear;
+}
+
+function nftIconSVG(iconId) {
+  return NFT_ICONS[iconId] || NFT_ICONS.bear;
+}
 
 function nftIconSVG(iconId) {
   return NFT_ICONS[iconId] || NFT_ICONS.bear;
@@ -260,11 +283,22 @@ socket.on('auto-login-failed', () => {
 
 // ================== АВТОРИЗАЦИЯ ==================
 $('btn-phone').onclick = () => {
-  const phone = $('phone').value.trim();
-  if (phone.length < 5) return toast('Введите номер');
+  let phone = $('phone').value.trim();
+  // Оставляем только цифры и + в начале
+  phone = phone.replace(/[^\d+]/g, '');
+  if (phone.length < 8) return toast('Введите корректный номер');
+  $('phone').value = phone;
   socket.emit('register', phone);
 };
-$('phone').addEventListener('keydown', e => e.key === 'Enter' && $('btn-phone').click());
+$('phone').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/[^\d+\s\-()]/g, '');
+});
+$('phone').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    $('btn-phone').click();
+  }
+});
 $('btn-code').onclick = () => {
   const code = $('code').value.trim();
   if (code.length < 4) return toast('Введите код');
@@ -429,7 +463,23 @@ $('chat-avatar').onclick = () => {
 $('chat-header-info').onclick = $('chat-avatar').onclick;
 
 $('btn-send').onclick = sendMsg;
-$('msg-input').addEventListener('keydown', e => e.key === 'Enter' && sendMsg());
+$('msg-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMsg();
+  }
+});
+
+// Отправка с мобильной клавиатуры по кнопке "Готово"
+$('msg-input').addEventListener('blur', () => {
+  // Скрываем клавиатуру после отправки — не трогаем
+});
+
+// На мобильных blur не должен блокировать кнопку отправки
+$('btn-send').addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  sendMsg();
+}, { passive: false });
 function sendMsg() {
   const text = $('msg-input').value.trim();
   if (!text || !CURRENT) return;

@@ -42,20 +42,31 @@ const MONTH_MS = 30 * 24 * 60 * 60 * 1000;
 
 // Каталог подарков (как в Telegram)
 const NFT_CATALOG = [
+  // ---- Обычные ----
   { id: 'bear',    name: 'Мишка',         icon: 'bear',    emoji: '🧸', rarity: 'common',    price: 15 },
   { id: 'rose',    name: 'Роза',          icon: 'rose',    emoji: '🌹', rarity: 'common',    price: 15 },
   { id: 'cake',    name: 'Торт',          icon: 'cake',    emoji: '🎂', rarity: 'common',    price: 25 },
   { id: 'heart',   name: 'Сердце',        icon: 'heart',   emoji: '❤️', rarity: 'common',    price: 25 },
-  { id: 'cup',     name: 'Кубок',         icon: 'cup',     emoji: '🏆', rarity: 'common',    price: 50 },
-  { id: 'rocket',  name: 'Ракета',        icon: 'rocket',  emoji: '🚀', rarity: 'rare',      price: 100 },
-  { id: 'diamond', name: 'Бриллиант',     icon: 'diamond', emoji: '💎', rarity: 'rare',      price: 150 },
-  { id: 'alien',   name: 'Инопланетянин', icon: 'alien',   emoji: '👽', rarity: 'rare',      price: 200 },
-  { id: 'crown',   name: 'Корона',        icon: 'crown',   emoji: '👑', rarity: 'epic',      price: 500 },
-  { id: 'unicorn', name: 'Единорог',      icon: 'unicorn', emoji: '🦄', rarity: 'epic',      price: 750 },
-  { id: 'pegasus', name: 'Пегас',         icon: 'pegasus', emoji: '🦅', rarity: 'legendary', price: 1500 },
-  { id: 'dragon',  name: 'Дракон',        icon: 'dragon',  emoji: '🐉', rarity: 'legendary', price: 2500 },
-  { id: 'phoenix', name: 'Феникс',        icon: 'phoenix', emoji: '🔥', rarity: 'legendary', price: 5000 },
-  { id: 'galaxy',  name: 'Галактика',     icon: 'galaxy',  emoji: '🌌', rarity: 'legendary', price: 10000 },
+
+  // ---- Редкие ----
+  { id: 'cup',     name: 'Кубок',         icon: 'cup',     emoji: '🏆', rarity: 'rare',      price: 100 },
+  { id: 'rocket',  name: 'Ракета',        icon: 'rocket',  emoji: '🚀', rarity: 'rare',      price: 150 },
+  { id: 'diamond', name: 'Бриллиант',     icon: 'diamond', emoji: '💎', rarity: 'rare',      price: 200 },
+
+  // ---- Эпические ----
+  { id: 'alien',   name: 'Инопланетянин', icon: 'alien',   emoji: '👽', rarity: 'epic',      price: 500 },
+  { id: 'crown',   name: 'Корона',        icon: 'crown',   emoji: '👑', rarity: 'epic',      price: 800 },
+  { id: 'unicorn', name: 'Единорог',      icon: 'unicorn', emoji: '🦄', rarity: 'epic',      price: 1200 },
+
+  // ---- Легендарные ----
+  { id: 'cigar',   name: 'Сигара',        icon: 'cigar',   emoji: '🚬', rarity: 'legendary', price: 3000 },
+  { id: 'money',   name: 'Деньги',        icon: 'money',   emoji: '💰', rarity: 'legendary', price: 5000 },
+  { id: 'dragon',  name: 'Дракон',        icon: 'dragon',  emoji: '🐉', rarity: 'legendary', price: 8000 },
+  { id: 'phoenix', name: 'Феникс',        icon: 'phoenix', emoji: '🔥', rarity: 'legendary', price: 12000 },
+  { id: 'galaxy',  name: 'Галактика',     icon: 'galaxy',  emoji: '🌌', rarity: 'legendary', price: 20000 },
+
+  // ---- САМАЯ ДОРОГАЯ ----
+  { id: 'pepe',    name: 'Pepe',          icon: 'pepe',    emoji: '🐸', rarity: 'legendary', price: 100000 },
 ];
 
 // ================= ХЕЛПЕРЫ =================

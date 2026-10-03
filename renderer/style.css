@@ -663,4 +663,53 @@ body.device-mobile .admin-actions { grid-template-columns: 1fr 1fr; }
 @keyframes slideIn {
   from { transform: translateX(400px); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}/* ============ МОБИЛЬНЫЙ ФИКС ВВОДА ============ */
+@media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  #app {
+    height: 100vh;
+    height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .composer {
+    padding: 8px 10px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0));
+    position: sticky;
+    bottom: 0;
+    background: var(--tg-panel);
+    z-index: 10;
+  }
+
+  .composer-input {
+    font-size: 16px; /* чтобы iOS не зумил */
+    min-height: 42px;
+    max-height: 120px;
+  }
+
+  .messages {
+    padding-bottom: 8px;
+  }
+
+  .send {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+}
+
+/* Скрываем клавиатуру при переходе в другое место */
+input, textarea {
+  font-size: 16px; /* защита от авто-зума на iOS */
+  -webkit-user-select: text;
+  user-select: text;
+}#phone {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
 }

@@ -3,7 +3,8 @@
   "appName": "Oblgram",
   "webDir": "renderer",
   "server": {
-    "androidScheme": "http",
+    "url": "https://oblgram.onrender.com",
+    "androidScheme": "https",
     "cleartext": true
   }
 }
